@@ -4,12 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>botvaworldwide</title>
-    <!-- Подключаем красивый шрифт Playfair Display + Inter для акцентов -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Сбрасываем отступы и настраиваем фон */
         * {
             margin: 0;
             padding: 0;
@@ -18,196 +16,373 @@
 
         body {
             min-height: 100vh;
+            background: #0a0a0a;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8faff; /* очень светлый, почти белый фон */
-            font-family: 'Playfair Display', serif;
-            padding: 1.5rem;
-            /* добавляем лёгкую текстуру, чтобы белый не был плоским */
-            background-image: radial-gradient(circle at 20% 30%, rgba(200, 220, 255, 0.3) 0%, transparent 60%),
-                              radial-gradient(circle at 80% 70%, rgba(210, 230, 255, 0.2) 0%, transparent 50%);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
             position: relative;
         }
 
-        /* Декоративный неоновый ореол вокруг всей страницы (белый неон) */
+        /* Фоновый эффект — лёгкое свечение */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%),
+                      radial-gradient(circle at 70% 60%, rgba(255,255,255,0.02) 0%, transparent 50%);
             pointer-events: none;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
             z-index: 0;
         }
 
-        /* Главный контейнер – стеклянный карточка с неоновыми элементами */
-        .hero {
+        /* ===== ЭКРАН ИНТРО ===== */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Главная надпись с анимацией появления */
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.8rem, 10vw, 7rem);
+            color: #ffffff;
+            letter-spacing: 0.04em;
+            text-transform: lowercase;
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            animation: titleAppear 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            text-shadow: 0 0 30px rgba(255,255,255,0.1), 0 0 60px rgba(255,255,255,0.05);
             position: relative;
-            z-index: 1;
-            max-width: 960px;
-            width: 100%;
-            padding: 4rem 3rem;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 56px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 
-                0 20px 60px rgba(180, 200, 255, 0.2),
-                0 0 40px rgba(220, 235, 255, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            text-align: center;
-            transition: box-shadow 0.4s ease;
         }
 
-        /* Неоновое свечение при наведении на карточку (белое + голубоватый отлив) */
-        .hero:hover {
-            box-shadow: 
-                0 30px 80px rgba(160, 190, 255, 0.3),
-                0 0 70px rgba(200, 220, 255, 0.8),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
-        }
-
-        /* Стиль для основного текста "botvaworldwide" – это и есть интро */
-        .intro {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: clamp(3.2rem, 13vw, 7rem);
-            letter-spacing: -0.02em;
-            color: #1a1f2e; /* тёмно-серый, почти чёрный, для контраста на белом фоне */
-            position: relative;
-            display: inline-block;
-            margin-bottom: 0.2em;
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.9),
-                0 0 30px rgba(210, 225, 255, 0.7),
-                0 0 60px rgba(190, 210, 255, 0.5);
-            transition: text-shadow 0.3s ease;
-        }
-
-        /* дополнительный неоновый слой поверх текста (эффект свечения) */
-        .intro::after {
-            content: 'botvaworldwide';
+        /* Лёгкий неоновый ореол вокруг текста */
+        .main-title::after {
+            content: '#botvaworldwide';
             position: absolute;
             top: 0;
             left: 0;
             z-index: -1;
             color: transparent;
-            text-shadow: 
-                0 0 40px rgba(200, 215, 255, 0.6),
-                0 0 80px rgba(180, 200, 255, 0.3);
-            filter: blur(2px);
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            text-shadow: 0 0 80px rgba(255,255,255,0.08), 0 0 150px rgba(255,255,255,0.04);
+            filter: blur(10px);
         }
 
-        .hero:hover .intro::after {
-            opacity: 1;
+        @keyframes titleAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+                filter: blur(8px);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.02) translateY(-2px);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
         }
 
-        /* Маленький акцентный подзаголовок (опционально) */
-        .sub {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: clamp(1rem, 2vw, 1.4rem);
-            letter-spacing: 0.4em;
+        /* Кнопка Open */
+        .btn-open {
+            margin-top: 3.5rem;
+            padding: 0.9rem 3.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: #4d5a72;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 0.5rem 2rem;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 20px rgba(200, 215, 255, 0.3);
-            margin-top: 0.5rem;
-        }
-
-        /* Декоративные неоновые линии по бокам (светящиеся в белых тонах) */
-        .neon-line {
-            display: block;
-            width: 80px;
-            height: 2px;
-            margin: 1.8rem auto;
-            background: linear-gradient(90deg, transparent, #b3c9ff, #ffffff, #b3c9ff, transparent);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(200, 220, 255, 0.8), 0 0 60px rgba(190, 210, 255, 0.4);
-            transition: width 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .hero:hover .neon-line {
-            width: 140px;
-            box-shadow: 0 0 40px rgba(200, 220, 255, 1), 0 0 80px rgba(190, 210, 255, 0.6);
-        }
-
-        /* Небольшой декоративный текст с кнопкой (для завершённости) */
-        .action {
-            margin-top: 2.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: 0.05em;
-            padding: 0.8rem 2.4rem;
+            color: #ffffff;
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.25);
             border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-            color: #1f2637;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(200, 215, 255, 0.2);
-            cursor: default;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            animation: fadeInBtn 1s ease 1.2s forwards;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 40px rgba(200, 220, 255, 0.7), 0 0 80px rgba(190, 210, 255, 0.3);
+        .btn-open::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.05);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 60px;
+        }
+
+        .btn-open:hover {
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 40px rgba(255,255,255,0.05), inset 0 0 40px rgba(255,255,255,0.02);
             transform: scale(1.03);
-            border-color: #ffffff;
         }
 
-        /* Адаптивность для маленьких экранов */
-        @media (max-width: 600px) {
-            .hero {
-                padding: 2.5rem 1.5rem;
-                border-radius: 32px;
+        .btn-open:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-open:active {
+            transform: scale(0.96);
+        }
+
+        @keyframes fadeInBtn {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ (список игроков) ===== */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.2s ease, visibility 1.2s ease;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Заголовок списка */
+        .list-header {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 1.2rem;
+        }
+
+        .list-header span {
+            color: rgba(255,255,255,0.15);
+            font-weight: 300;
+        }
+
+        /* Сам список */
+        .player-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .player-list li {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.85);
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: default;
+            position: relative;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Номер игрока */
+        .player-list li::before {
+            content: attr(data-index);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.12);
+            min-width: 1.8rem;
+            text-align: right;
+            letter-spacing: 0.05em;
+        }
+
+        /* Точка-индикатор */
+        .player-list li::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-left: auto;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .player-list li:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.08);
+            transform: translateX(6px);
+        }
+
+        .player-list li:hover::after {
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 0 12px rgba(255,255,255,0.1);
+        }
+
+        /* Анимация появления каждого элемента списка */
+        .player-list li {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: listItemFade 0.6s ease forwards;
+        }
+
+        .player-list li:nth-child(1) { animation-delay: 0.05s; }
+        .player-list li:nth-child(2) { animation-delay: 0.10s; }
+        .player-list li:nth-child(3) { animation-delay: 0.15s; }
+        .player-list li:nth-child(4) { animation-delay: 0.20s; }
+        .player-list li:nth-child(5) { animation-delay: 0.25s; }
+        .player-list li:nth-child(6) { animation-delay: 0.30s; }
+        .player-list li:nth-child(7) { animation-delay: 0.35s; }
+        .player-list li:nth-child(8) { animation-delay: 0.40s; }
+        .player-list li:nth-child(9) { animation-delay: 0.45s; }
+        .player-list li:nth-child(10) { animation-delay: 0.50s; }
+        .player-list li:nth-child(11) { animation-delay: 0.55s; }
+
+        @keyframes listItemFade {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
             }
-            .neon-line {
-                width: 50px;
+            100% {
+                opacity: 1;
+                transform: translateY(0);
             }
-            .hero:hover .neon-line {
-                width: 80px;
+        }
+
+        /* Кнопка назад (в интро) */
+        .btn-back {
+            margin-top: 2.5rem;
+            padding: 0.5rem 1.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .btn-back:hover {
+            color: rgba(255,255,255,0.5);
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 640px) {
+            #main-content {
+                padding: 1.5rem 1.2rem;
+            }
+            .player-list li {
+                font-size: 1.05rem;
+                padding: 0.6rem 1rem;
+            }
+            .player-list li::before {
+                font-size: 0.6rem;
+                min-width: 1.4rem;
+            }
+            .btn-open {
+                padding: 0.7rem 2.5rem;
+                font-size: 0.9rem;
+            }
+            .list-header {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .player-list li {
+                font-size: 0.9rem;
+                padding: 0.5rem 0.8rem;
+            }
+            #main-content {
+                padding: 1rem 0.8rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="hero">
+    <!-- ===== ЭКРАН ИНТРО ===== -->
+    <div id="intro-screen">
+        <h1 class="main-title">#botvaworldwide</h1>
+        <button class="btn-open" id="openBtn">Open</button>
+    </div>
 
-        <!-- ГЛАВНОЕ ИНТРО: botvaworldwide -->
-        <h1 class="intro">botvaworldwide</h1>
-
-        <!-- Неоновая линия для красоты -->
-        <span class="neon-line"></span>
-
-        <!-- Дополнительный текст, чтобы показать стиль (можно удалить, если не нужно) -->
-        <p class="sub">✦ свет • неон • эстетика ✦</p>
-
-        <!-- Кнопка-заглушка для завершённости композиции -->
-        <div class="action">
-            <span class="btn">✨ войти</span>
-            <span class="btn" style="background: rgba(255,255,255,0.15);">🌙 исследовать</span>
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div id="main-content">
+        <div class="list-header">
+            <span>✦</span> community <span>✦</span>
         </div>
 
+        <ul class="player-list">
+            <li data-index="01">savinar</li>
+            <li data-index="02">ayallo</li>
+            <li data-index="03">mopuaptu</li>
+            <li data-index="04">examples</li>
+            <li data-index="05">enrike</li>
+            <li data-index="06">muctep cocucka</li>
+            <li data-index="07">erba</li>
+            <li data-index="08">mishutante</li>
+            <li data-index="09">timecode</li>
+            <li data-index="10">ryujin</li>
+            <li data-index="11">ryodeu</li>
+        </ul>
+
+        <button class="btn-back" id="backBtn">← назад</button>
     </div>
+
+    <script>
+        const introScreen = document.getElementById('intro-screen');
+        const mainContent = document.getElementById('main-content');
+        const openBtn = document.getElementById('openBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        // Открываем — скрываем интро, показываем список
+        openBtn.addEventListener('click', () => {
+            introScreen.classList.add('hidden');
+            mainContent.classList.add('visible');
+        });
+
+        // Назад — возвращаем интро, скрываем список
+        backBtn.addEventListener('click', () => {
+            introScreen.classList.remove('hidden');
+            mainContent.classList.remove('visible');
+        });
+    </script>
 
 </body>
 </html>
