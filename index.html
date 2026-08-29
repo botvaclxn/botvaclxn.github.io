@@ -162,6 +162,9 @@
             padding: 2rem 2.5rem;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #main-content.visible {
@@ -169,22 +172,78 @@
             visibility: visible;
         }
 
+        /* ===== НОВЫЙ ЗАГОЛОВОК botva clxn ===== */
+        .site-header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInHeader 0.8s ease 0.3s forwards;
+        }
+
+        @keyframes fadeInHeader {
+            0% { opacity: 0; transform: translateY(-8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .site-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            color: #ffffff;
+            letter-spacing: 0.08em;
+            text-transform: lowercase;
+            text-shadow: 0 0 40px rgba(255,255,255,0.05);
+        }
+
+        .site-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.9rem, 2vw, 1.4rem);
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Декоративная линия под подзаголовком */
+        .site-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Разделитель между заголовком и списком */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(255,255,255,0.05);
+            margin: 1.2rem auto 1.8rem auto;
+        }
+
         /* Заголовок списка */
         .list-header {
             font-family: 'Orbitron', sans-serif;
             font-weight: 400;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.25);
-            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.15);
+            margin-bottom: 1.8rem;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding-bottom: 1rem;
+            width: 100%;
         }
 
         .list-header span {
-            color: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.08);
             font-weight: 300;
         }
 
@@ -194,6 +253,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
+            width: 100%;
         }
 
         .player-list li {
@@ -231,7 +291,7 @@
             content: '';
             width: 4px;
             height: 4px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
             border-radius: 50%;
             margin-left: auto;
             transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -244,8 +304,8 @@
         }
 
         .player-list li:hover::after {
-            background: rgba(255,255,255,0.4);
-            box-shadow: 0 0 12px rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 12px rgba(255,255,255,0.08);
         }
 
         /* Анимация появления каждого элемента списка */
@@ -255,17 +315,17 @@
             animation: listItemFade 0.6s ease forwards;
         }
 
-        .player-list li:nth-child(1) { animation-delay: 0.05s; }
-        .player-list li:nth-child(2) { animation-delay: 0.10s; }
-        .player-list li:nth-child(3) { animation-delay: 0.15s; }
-        .player-list li:nth-child(4) { animation-delay: 0.20s; }
-        .player-list li:nth-child(5) { animation-delay: 0.25s; }
-        .player-list li:nth-child(6) { animation-delay: 0.30s; }
-        .player-list li:nth-child(7) { animation-delay: 0.35s; }
-        .player-list li:nth-child(8) { animation-delay: 0.40s; }
-        .player-list li:nth-child(9) { animation-delay: 0.45s; }
-        .player-list li:nth-child(10) { animation-delay: 0.50s; }
-        .player-list li:nth-child(11) { animation-delay: 0.55s; }
+        .player-list li:nth-child(1) { animation-delay: 0.10s; }
+        .player-list li:nth-child(2) { animation-delay: 0.15s; }
+        .player-list li:nth-child(3) { animation-delay: 0.20s; }
+        .player-list li:nth-child(4) { animation-delay: 0.25s; }
+        .player-list li:nth-child(5) { animation-delay: 0.30s; }
+        .player-list li:nth-child(6) { animation-delay: 0.35s; }
+        .player-list li:nth-child(7) { animation-delay: 0.40s; }
+        .player-list li:nth-child(8) { animation-delay: 0.45s; }
+        .player-list li:nth-child(9) { animation-delay: 0.50s; }
+        .player-list li:nth-child(10) { animation-delay: 0.55s; }
+        .player-list li:nth-child(11) { animation-delay: 0.60s; }
 
         @keyframes listItemFade {
             0% {
@@ -287,7 +347,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.15);
             background: transparent;
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 40px;
@@ -296,8 +356,8 @@
         }
 
         .btn-back:hover {
-            color: rgba(255,255,255,0.5);
-            border-color: rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.4);
+            border-color: rgba(255,255,255,0.1);
             background: rgba(255,255,255,0.02);
         }
 
@@ -319,7 +379,13 @@
                 font-size: 0.9rem;
             }
             .list-header {
-                font-size: 0.65rem;
+                font-size: 0.6rem;
+            }
+            .site-title {
+                font-size: clamp(1.8rem, 7vw, 3rem);
+            }
+            .site-subtitle {
+                font-size: clamp(0.7rem, 2.5vw, 1rem);
             }
         }
 
@@ -344,6 +410,14 @@
 
     <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
     <div id="main-content">
+        <!-- НОВЫЙ ЗАГОЛОВОК -->
+        <div class="site-header">
+            <div class="site-title">botva clxn</div>
+            <div class="site-subtitle">world wide</div>
+        </div>
+
+        <div class="divider"></div>
+
         <div class="list-header">
             <span>✦</span> community <span>✦</span>
         </div>
