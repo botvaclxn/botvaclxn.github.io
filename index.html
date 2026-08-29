@@ -237,6 +237,60 @@
             margin: 1.2rem auto 1.8rem auto;
         }
 
+        /* ===== СОЦИАЛЬНЫЕ СЕТИ ===== */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInHeader 0.8s ease 0.45s forwards;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255,255,255,0.08);
+            background: transparent;
+            color: rgba(255,255,255,0.3);
+            font-size: 1.6rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.08);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* YouTube */
+        .social-link.youtube:hover {
+            color: #FF0000;
+            border-color: #FF0000;
+            box-shadow: 0 0 30px rgba(255,0,0,0.15);
+            background: rgba(255,0,0,0.05);
+        }
+
+        /* TikTok */
+        .social-link.tiktok:hover {
+            color: #00f2ea;
+            border-color: #00f2ea;
+            box-shadow: 0 0 30px rgba(0,242,234,0.15);
+            background: rgba(0,242,234,0.05);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: all 0.3s ease;
+        }
+
         /* ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - НАРИСОВАННЫЕ ФЛАГИ ===== */
         .lang-switcher {
             display: flex;
@@ -300,7 +354,6 @@
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
-        /* Звёзды на флаге США */
         .flag-us::before {
             content: '★ ★ ★ ★ ★ ★';
             position: absolute;
@@ -611,6 +664,15 @@
                 width: 40px;
                 height: 40px;
             }
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            .social-link svg {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         @media (max-width: 400px) {
@@ -634,6 +696,15 @@
             .lang-btn {
                 width: 36px;
                 height: 36px;
+            }
+            .social-link {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+            .social-link svg {
+                width: 18px;
+                height: 18px;
             }
             .flag-us::before {
                 font-size: 3px;
@@ -660,6 +731,20 @@
         </div>
 
         <div class="divider"></div>
+
+        <!-- СОЦИАЛЬНЫЕ СЕТИ -->
+        <div class="social-links">
+            <a href="https://www.youtube.com/@botvaclan" target="_blank" class="social-link youtube" title="YouTube">
+                <svg viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+            </a>
+            <a href="https://www.tiktok.com/@botvaclxn" target="_blank" class="social-link tiktok" title="TikTok">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12.525.02c1.31-.013 2.61-.018 3.91-.02.051 1.645.755 3.795 2.695 4.725.873.418 1.84.573 2.795.658v3.255a9.58 9.58 0 0 1-3.93-.648 11.283 11.283 0 0 1-1.858-1.004v7.975c0 5.107-4.063 8.722-9.08 7.765-3.377-.645-6.067-3.382-6.455-6.58-.496-4.071 2.401-7.729 6.34-7.884.48-.019.957.025 1.43.118v3.95a6.594 6.594 0 0 0-1.468-.129c-2.257.129-3.968 1.946-4.066 4.099-.099 2.182.995 4.115 2.85 4.765.94.33 1.935.34 2.85-.068.45-.201.848-.523 1.15-.916.306-.399.526-.844.633-1.317.128-.566.145-1.145.145-1.725V.02h.005z"/>
+                </svg>
+            </a>
+        </div>
 
         <!-- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - НАРИСОВАННЫЕ ФЛАГИ -->
         <div class="lang-switcher">
