@@ -1,10 +1,213 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Мой первый сайт на GitHub</title>
-  </head>
-  <body>
-    <h1>Привет, мир!</h1>
-    <p>Мой сайт работает!</p>
-  </body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>botvaworldwide</title>
+    <!-- Подключаем красивый шрифт Playfair Display + Inter для акцентов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        /* Сбрасываем отступы и настраиваем фон */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8faff; /* очень светлый, почти белый фон */
+            font-family: 'Playfair Display', serif;
+            padding: 1.5rem;
+            /* добавляем лёгкую текстуру, чтобы белый не был плоским */
+            background-image: radial-gradient(circle at 20% 30%, rgba(200, 220, 255, 0.3) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 70%, rgba(210, 230, 255, 0.2) 0%, transparent 50%);
+            position: relative;
+        }
+
+        /* Декоративный неоновый ореол вокруг всей страницы (белый неон) */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* Главный контейнер – стеклянный карточка с неоновыми элементами */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            width: 100%;
+            padding: 4rem 3rem;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 56px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 20px 60px rgba(180, 200, 255, 0.2),
+                0 0 40px rgba(220, 235, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            text-align: center;
+            transition: box-shadow 0.4s ease;
+        }
+
+        /* Неоновое свечение при наведении на карточку (белое + голубоватый отлив) */
+        .hero:hover {
+            box-shadow: 
+                0 30px 80px rgba(160, 190, 255, 0.3),
+                0 0 70px rgba(200, 220, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+
+        /* Стиль для основного текста "botvaworldwide" – это и есть интро */
+        .intro {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(3.2rem, 13vw, 7rem);
+            letter-spacing: -0.02em;
+            color: #1a1f2e; /* тёмно-серый, почти чёрный, для контраста на белом фоне */
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.2em;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.9),
+                0 0 30px rgba(210, 225, 255, 0.7),
+                0 0 60px rgba(190, 210, 255, 0.5);
+            transition: text-shadow 0.3s ease;
+        }
+
+        /* дополнительный неоновый слой поверх текста (эффект свечения) */
+        .intro::after {
+            content: 'botvaworldwide';
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            color: transparent;
+            text-shadow: 
+                0 0 40px rgba(200, 215, 255, 0.6),
+                0 0 80px rgba(180, 200, 255, 0.3);
+            filter: blur(2px);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .hero:hover .intro::after {
+            opacity: 1;
+        }
+
+        /* Маленький акцентный подзаголовок (опционально) */
+        .sub {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #4d5a72;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(200, 215, 255, 0.3);
+            margin-top: 0.5rem;
+        }
+
+        /* Декоративные неоновые линии по бокам (светящиеся в белых тонах) */
+        .neon-line {
+            display: block;
+            width: 80px;
+            height: 2px;
+            margin: 1.8rem auto;
+            background: linear-gradient(90deg, transparent, #b3c9ff, #ffffff, #b3c9ff, transparent);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(200, 220, 255, 0.8), 0 0 60px rgba(190, 210, 255, 0.4);
+            transition: width 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .hero:hover .neon-line {
+            width: 140px;
+            box-shadow: 0 0 40px rgba(200, 220, 255, 1), 0 0 80px rgba(190, 210, 255, 0.6);
+        }
+
+        /* Небольшой декоративный текст с кнопкой (для завершённости) */
+        .action {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            padding: 0.8rem 2.4rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            color: #1f2637;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(200, 215, 255, 0.2);
+            cursor: default;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 40px rgba(200, 220, 255, 0.7), 0 0 80px rgba(190, 210, 255, 0.3);
+            transform: scale(1.03);
+            border-color: #ffffff;
+        }
+
+        /* Адаптивность для маленьких экранов */
+        @media (max-width: 600px) {
+            .hero {
+                padding: 2.5rem 1.5rem;
+                border-radius: 32px;
+            }
+            .neon-line {
+                width: 50px;
+            }
+            .hero:hover .neon-line {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+
+        <!-- ГЛАВНОЕ ИНТРО: botvaworldwide -->
+        <h1 class="intro">botvaworldwide</h1>
+
+        <!-- Неоновая линия для красоты -->
+        <span class="neon-line"></span>
+
+        <!-- Дополнительный текст, чтобы показать стиль (можно удалить, если не нужно) -->
+        <p class="sub">✦ свет • неон • эстетика ✦</p>
+
+        <!-- Кнопка-заглушка для завершённости композиции -->
+        <div class="action">
+            <span class="btn">✨ войти</span>
+            <span class="btn" style="background: rgba(255,255,255,0.15);">🌙 исследовать</span>
+        </div>
+
+    </div>
+
+</body>
 </html>
