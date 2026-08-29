@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* Фоновый эффект — лёгкое свечение */
         body::before {
             content: '';
             position: fixed;
@@ -55,7 +54,6 @@
             pointer-events: none;
         }
 
-        /* Главная надпись с анимацией появления */
         .main-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -70,7 +68,6 @@
             position: relative;
         }
 
-        /* Лёгкий неоновый ореол вокруг текста */
         .main-title::after {
             content: '#botvaworldwide';
             position: absolute;
@@ -100,7 +97,6 @@
             }
         }
 
-        /* Кнопка Open */
         .btn-open {
             margin-top: 3.5rem;
             padding: 0.9rem 3.5rem;
@@ -152,19 +148,21 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ (список игроков) ===== */
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         #main-content {
             opacity: 0;
             visibility: hidden;
             transition: opacity 1.2s ease, visibility 1.2s ease;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             padding: 2rem 2.5rem;
             position: relative;
             z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            max-height: 95vh;
+            overflow-y: auto;
         }
 
         #main-content.visible {
@@ -172,12 +170,26 @@
             visibility: visible;
         }
 
-        /* ===== НОВЫЙ ЗАГОЛОВОК botva clxn ===== */
+        #main-content::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        #main-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+        }
+
+        #main-content::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        /* ===== ЗАГОЛОВОК ===== */
         .site-header {
             text-align: center;
             margin-bottom: 0.5rem;
             opacity: 0;
             animation: fadeInHeader 0.8s ease 0.3s forwards;
+            width: 100%;
         }
 
         @keyframes fadeInHeader {
@@ -207,7 +219,6 @@
             display: inline-block;
         }
 
-        /* Декоративная линия под подзаголовком */
         .site-subtitle::after {
             content: '';
             position: absolute;
@@ -219,7 +230,6 @@
             background: rgba(255,255,255,0.08);
         }
 
-        /* Разделитель между заголовком и списком */
         .divider {
             width: 60px;
             height: 1px;
@@ -227,41 +237,124 @@
             margin: 1.2rem auto 1.8rem auto;
         }
 
-        /* Заголовок списка */
-        .list-header {
+        /* ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ ===== */
+        .lang-switcher {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInHeader 0.8s ease 0.5s forwards;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 30px;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            opacity: 0.4;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            opacity: 0.8;
+            border-color: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* ===== ВКЛАДКИ ===== */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+            width: 100%;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInHeader 0.8s ease 0.4s forwards;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
             font-family: 'Orbitron', sans-serif;
             font-weight: 400;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.15);
-            margin-bottom: 1.8rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            padding-bottom: 1rem;
+            color: rgba(255,255,255,0.25);
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 30px;
+            padding: 0.5rem 1.8rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .tab-btn:hover {
+            color: rgba(255,255,255,0.5);
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .tab-btn.active {
+            color: rgba(255,255,255,0.8);
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* ===== КОНТЕНТ ВКЛАДОК ===== */
+        .tab-content {
             width: 100%;
+            display: none;
+            animation: fadeInContent 0.6s ease;
         }
 
-        .list-header span {
-            color: rgba(255,255,255,0.08);
-            font-weight: 300;
+        .tab-content.active {
+            display: block;
         }
 
-        /* Сам список */
+        @keyframes fadeInContent {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== СПИСОК ИГРОКОВ ===== */
         .player-list {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
             width: 100%;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .player-list::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .player-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .player-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
         }
 
         .player-list li {
             font-family: 'Inter', sans-serif;
             font-weight: 300;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: rgba(255,255,255,0.85);
-            padding: 0.7rem 1.2rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 12px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.03);
@@ -272,21 +365,22 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: listItemFade 0.6s ease forwards;
         }
 
-        /* Номер игрока */
         .player-list li::before {
             content: attr(data-index);
             font-family: 'Orbitron', sans-serif;
             font-weight: 400;
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: rgba(255,255,255,0.12);
             min-width: 1.8rem;
             text-align: right;
             letter-spacing: 0.05em;
         }
 
-        /* Точка-индикатор */
         .player-list li::after {
             content: '';
             width: 4px;
@@ -308,24 +402,22 @@
             box-shadow: 0 0 12px rgba(255,255,255,0.08);
         }
 
-        /* Анимация появления каждого элемента списка */
-        .player-list li {
-            opacity: 0;
-            transform: translateY(12px);
-            animation: listItemFade 0.6s ease forwards;
-        }
-
-        .player-list li:nth-child(1) { animation-delay: 0.10s; }
-        .player-list li:nth-child(2) { animation-delay: 0.15s; }
-        .player-list li:nth-child(3) { animation-delay: 0.20s; }
-        .player-list li:nth-child(4) { animation-delay: 0.25s; }
-        .player-list li:nth-child(5) { animation-delay: 0.30s; }
-        .player-list li:nth-child(6) { animation-delay: 0.35s; }
-        .player-list li:nth-child(7) { animation-delay: 0.40s; }
-        .player-list li:nth-child(8) { animation-delay: 0.45s; }
-        .player-list li:nth-child(9) { animation-delay: 0.50s; }
-        .player-list li:nth-child(10) { animation-delay: 0.55s; }
-        .player-list li:nth-child(11) { animation-delay: 0.60s; }
+        .player-list li:nth-child(1) { animation-delay: 0.05s; }
+        .player-list li:nth-child(2) { animation-delay: 0.09s; }
+        .player-list li:nth-child(3) { animation-delay: 0.13s; }
+        .player-list li:nth-child(4) { animation-delay: 0.17s; }
+        .player-list li:nth-child(5) { animation-delay: 0.21s; }
+        .player-list li:nth-child(6) { animation-delay: 0.25s; }
+        .player-list li:nth-child(7) { animation-delay: 0.29s; }
+        .player-list li:nth-child(8) { animation-delay: 0.33s; }
+        .player-list li:nth-child(9) { animation-delay: 0.37s; }
+        .player-list li:nth-child(10) { animation-delay: 0.41s; }
+        .player-list li:nth-child(11) { animation-delay: 0.45s; }
+        .player-list li:nth-child(12) { animation-delay: 0.49s; }
+        .player-list li:nth-child(13) { animation-delay: 0.53s; }
+        .player-list li:nth-child(14) { animation-delay: 0.57s; }
+        .player-list li:nth-child(15) { animation-delay: 0.61s; }
+        .player-list li:nth-child(16) { animation-delay: 0.65s; }
 
         @keyframes listItemFade {
             0% {
@@ -338,9 +430,34 @@
             }
         }
 
-        /* Кнопка назад (в интро) */
+        /* ===== СТАТИСТИКА (заглушка) ===== */
+        .stats-content {
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            padding: 2rem 0;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-content .stat-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .stats-content .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-value {
+            color: rgba(255,255,255,0.6);
+            font-weight: 400;
+        }
+
+        /* ===== КНОПКА НАЗАД ===== */
         .btn-back {
-            margin-top: 2.5rem;
+            margin-top: 2rem;
             padding: 0.5rem 1.8rem;
             font-family: 'Inter', sans-serif;
             font-weight: 300;
@@ -365,37 +482,40 @@
         @media (max-width: 640px) {
             #main-content {
                 padding: 1.5rem 1.2rem;
+                max-height: 98vh;
             }
             .player-list li {
-                font-size: 1.05rem;
-                padding: 0.6rem 1rem;
+                font-size: 0.95rem;
+                padding: 0.5rem 0.8rem;
             }
             .player-list li::before {
-                font-size: 0.6rem;
+                font-size: 0.5rem;
                 min-width: 1.4rem;
             }
             .btn-open {
                 padding: 0.7rem 2.5rem;
                 font-size: 0.9rem;
             }
-            .list-header {
+            .tab-btn {
                 font-size: 0.6rem;
+                padding: 0.4rem 1.2rem;
             }
-            .site-title {
-                font-size: clamp(1.8rem, 7vw, 3rem);
-            }
-            .site-subtitle {
-                font-size: clamp(0.7rem, 2.5vw, 1rem);
+            .player-list {
+                max-height: 250px;
             }
         }
 
         @media (max-width: 400px) {
             .player-list li {
-                font-size: 0.9rem;
-                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem;
             }
             #main-content {
                 padding: 1rem 0.8rem;
+            }
+            .tab-btn {
+                font-size: 0.5rem;
+                padding: 0.3rem 0.8rem;
             }
         }
     </style>
@@ -410,7 +530,7 @@
 
     <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
     <div id="main-content">
-        <!-- НОВЫЙ ЗАГОЛОВОК -->
+        <!-- ЗАГОЛОВОК -->
         <div class="site-header">
             <div class="site-title">botva clxn</div>
             <div class="site-subtitle">world wide</div>
@@ -418,23 +538,57 @@
 
         <div class="divider"></div>
 
-        <div class="list-header">
-            <span>✦</span> community <span>✦</span>
+        <!-- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ -->
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="ru" title="Русский">🇷🇺</button>
+            <button class="lang-btn" data-lang="en" title="English">🇺🇸</button>
         </div>
 
-        <ul class="player-list">
-            <li data-index="01">savinar</li>
-            <li data-index="02">ayallo</li>
-            <li data-index="03">mopuaptu</li>
-            <li data-index="04">examples</li>
-            <li data-index="05">enrike</li>
-            <li data-index="06">muctep cocucka</li>
-            <li data-index="07">erba</li>
-            <li data-index="08">mishutante</li>
-            <li data-index="09">timecode</li>
-            <li data-index="10">ryujin</li>
-            <li data-index="11">ryodeu</li>
-        </ul>
+        <!-- ВКЛАДКИ -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="members">Members</button>
+            <button class="tab-btn" data-tab="stats">Stats</button>
+        </div>
+
+        <!-- ВКЛАДКА MEMBERS -->
+        <div class="tab-content active" id="tab-members">
+            <ul class="player-list">
+                <li data-index="01">haruki</li>
+                <li data-index="02">ayallo</li>
+                <li data-index="03">mopuaptu</li>
+                <li data-index="04">examples</li>
+                <li data-index="05">muctep cocucka</li>
+                <li data-index="06">lencerthaist</li>
+                <li data-index="07">1nfected</li>
+                <li data-index="08">mishutante</li>
+                <li data-index="09">fufel</li>
+                <li data-index="10">timecode</li>
+                <li data-index="11">ryujin</li>
+                <li data-index="12">ryodeu</li>
+                <li data-index="13">mirai</li>
+                <li data-index="14">enrike</li>
+                <li data-index="15">savinar</li>
+                <li data-index="16">litto</li>
+            </ul>
+        </div>
+
+        <!-- ВКЛАДКА STATS -->
+        <div class="tab-content" id="tab-stats">
+            <div class="stats-content">
+                <div class="stat-item">
+                    <span class="stat-label" data-ru="Всего игроков" data-en="Total players">Всего игроков</span><br>
+                    <span class="stat-value">16</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" data-ru="Онлайн" data-en="Online">Онлайн</span><br>
+                    <span class="stat-value">12</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label" data-ru="Дата основания" data-en="Founded">Дата основания</span><br>
+                    <span class="stat-value">2024</span>
+                </div>
+            </div>
+        </div>
 
         <button class="btn-back" id="backBtn">← назад</button>
     </div>
@@ -455,6 +609,75 @@
         backBtn.addEventListener('click', () => {
             introScreen.classList.remove('hidden');
             mainContent.classList.remove('visible');
+        });
+
+        // ===== ВКЛАДКИ =====
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = {
+            members: document.getElementById('tab-members'),
+            stats: document.getElementById('tab-stats')
+        };
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Убираем активный класс у всех кнопок
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Скрываем все вкладки
+                Object.values(tabContents).forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // Показываем выбранную вкладку
+                const tabId = btn.dataset.tab;
+                if (tabContents[tabId]) {
+                    tabContents[tabId].classList.add('active');
+                    // Перезапускаем анимацию для списка игроков
+                    if (tabId === 'members') {
+                        const list = tabContents[tabId].querySelector('.player-list');
+                        if (list) {
+                            list.style.animation = 'none';
+                            setTimeout(() => {
+                                list.style.animation = '';
+                            }, 10);
+                        }
+                    }
+                }
+            });
+        });
+
+        // ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ =====
+        const langButtons = document.querySelectorAll('.lang-btn');
+        let currentLang = 'ru';
+
+        const translations = {
+            ru: {
+                'Всего игроков': 'Всего игроков',
+                'Онлайн': 'Онлайн',
+                'Дата основания': 'Дата основания'
+            },
+            en: {
+                'Всего игроков': 'Total players',
+                'Онлайн': 'Online',
+                'Дата основания': 'Founded'
+            }
+        };
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = btn.dataset.lang;
+
+                // Обновляем текст в статистике
+                document.querySelectorAll('.stat-label').forEach(el => {
+                    const text = el.dataset[currentLang];
+                    if (text) {
+                        el.textContent = text;
+                    }
+                });
+            });
         });
     </script>
 
