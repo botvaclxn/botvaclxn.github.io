@@ -237,7 +237,7 @@
             margin: 1.2rem auto 1.8rem auto;
         }
 
-        /* ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - ФЛАГИ ===== */
+        /* ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - НАРИСОВАННЫЕ ФЛАГИ ===== */
         .lang-switcher {
             display: flex;
             gap: 1rem;
@@ -250,33 +250,77 @@
             background: transparent;
             border: 2px solid rgba(255,255,255,0.08);
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             cursor: pointer;
-            font-size: 1.8rem;
             transition: all 0.3s ease;
-            opacity: 0.3;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            opacity: 0.4;
             padding: 0;
-            filter: grayscale(0.8);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
         .lang-btn:hover {
-            opacity: 0.7;
-            border-color: rgba(255,255,255,0.2);
+            opacity: 0.8;
+            border-color: rgba(255,255,255,0.25);
             transform: scale(1.08);
-            filter: grayscale(0);
         }
 
         .lang-btn.active {
             opacity: 1;
             border-color: rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.05);
-            filter: grayscale(0);
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
             transform: scale(1.05);
+        }
+
+        /* ===== ФЛАГ РОССИИ ===== */
+        .flag-ru {
+            background: linear-gradient(to bottom, #FFFFFF 33.33%, #0039A6 33.33%, #0039A6 66.66%, #D52B1E 66.66%);
+            border-radius: 50%;
+        }
+
+        /* ===== ФЛАГ США ===== */
+        .flag-us {
+            background: 
+                linear-gradient(to bottom, #B22234 7.69%, #FFFFFF 7.69%, #FFFFFF 15.38%, #B22234 15.38%, #B22234 23.07%, #FFFFFF 23.07%, #FFFFFF 30.76%, #B22234 30.76%, #B22234 38.45%, #FFFFFF 38.45%, #FFFFFF 46.14%, #B22234 46.14%, #B22234 53.83%, #FFFFFF 53.83%, #FFFFFF 61.52%, #B22234 61.52%, #B22234 69.21%, #FFFFFF 69.21%, #FFFFFF 76.90%, #B22234 76.90%, #B22234 84.59%, #FFFFFF 84.59%, #FFFFFF 92.28%, #B22234 92.28%);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .flag-us::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 46.15%;
+            background: #3C3B6E;
+            border-radius: 50% 0 0 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Звёзды на флаге США */
+        .flag-us::before {
+            content: '★ ★ ★ ★ ★ ★';
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            font-size: 4px;
+            color: white;
+            letter-spacing: 2px;
+            line-height: 5px;
+            width: 45%;
+            height: 46.15%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            justify-content: center;
+            gap: 1px 2px;
+            text-shadow: 0 0 1px rgba(255,255,255,0.5);
+            z-index: 2;
+            font-family: Arial, sans-serif;
+            padding: 1px 0;
         }
 
         /* ===== ВКЛАДКИ ===== */
@@ -564,9 +608,8 @@
                 font-size: 0.85rem;
             }
             .lang-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 1.5rem;
+                width: 40px;
+                height: 40px;
             }
         }
 
@@ -589,9 +632,13 @@
                 padding: 0.5rem 0.8rem;
             }
             .lang-btn {
-                width: 34px;
-                height: 34px;
-                font-size: 1.3rem;
+                width: 36px;
+                height: 36px;
+            }
+            .flag-us::before {
+                font-size: 3px;
+                letter-spacing: 1px;
+                line-height: 4px;
             }
         }
     </style>
@@ -614,10 +661,10 @@
 
         <div class="divider"></div>
 
-        <!-- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - ТОЛЬКО ФЛАГИ -->
+        <!-- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - НАРИСОВАННЫЕ ФЛАГИ -->
         <div class="lang-switcher">
-            <button class="lang-btn active" data-lang="ru" title="Русский">🇷🇺</button>
-            <button class="lang-btn" data-lang="en" title="English">🇺🇸</button>
+            <button class="lang-btn flag-ru active" data-lang="ru" title="Русский"></button>
+            <button class="lang-btn flag-us" data-lang="en" title="English"></button>
         </div>
 
         <!-- ВКЛАДКИ -->
@@ -702,13 +749,11 @@
         const openBtn = document.getElementById('openBtn');
         const backBtn = document.getElementById('backBtn');
 
-        // Открываем — скрываем интро, показываем список
         openBtn.addEventListener('click', () => {
             introScreen.classList.add('hidden');
             mainContent.classList.add('visible');
         });
 
-        // Назад — возвращаем интро, скрываем список
         backBtn.addEventListener('click', () => {
             introScreen.classList.remove('hidden');
             mainContent.classList.remove('visible');
@@ -747,7 +792,7 @@
             });
         });
 
-        // ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ - ФЛАГИ =====
+        // ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ =====
         const langButtons = document.querySelectorAll('.lang-btn');
 
         langButtons.forEach(btn => {
@@ -756,7 +801,6 @@
                 btn.classList.add('active');
                 const currentLang = btn.dataset.lang;
 
-                // Обновляем текст вкладок
                 document.querySelectorAll('.tab-btn').forEach(el => {
                     const text = el.dataset[currentLang];
                     if (text) {
@@ -764,7 +808,6 @@
                     }
                 });
 
-                // Обновляем текст в статистике
                 document.querySelectorAll('.stat-label').forEach(el => {
                     const text = el.dataset[currentLang];
                     if (text) {
@@ -772,7 +815,6 @@
                     }
                 });
 
-                // Обновляем текст в достижениях
                 document.querySelectorAll('.achievement-text').forEach(el => {
                     const text = el.dataset[currentLang];
                     if (text) {
@@ -780,7 +822,6 @@
                     }
                 });
 
-                // Обновляем кнопку назад
                 const backText = backBtn.dataset[currentLang];
                 if (backText) {
                     backBtn.textContent = backText;
