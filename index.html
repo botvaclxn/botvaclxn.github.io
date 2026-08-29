@@ -464,19 +464,55 @@
 
         /* ===== ACHIEVEMENTS ===== */
         .achievements-content {
-            text-align: center;
-            color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.3);
             font-family: 'Inter', sans-serif;
             font-weight: 300;
             font-size: 0.9rem;
-            padding: 3rem 0;
+            padding: 0.5rem 0 1rem 0;
+            letter-spacing: 0.02em;
+        }
+
+        .achievement-item {
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .achievement-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.08);
+            transform: translateX(4px);
+        }
+
+        .achievement-icon {
+            font-size: 1.3rem;
+            opacity: 0.5;
+            min-width: 2rem;
+        }
+
+        .achievement-text {
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .achievement-text .highlight {
+            color: rgba(255,255,255,0.4);
+            font-weight: 400;
+            font-size: 0.8rem;
             letter-spacing: 0.05em;
         }
 
-        .achievements-content .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
+        .achievement-text .game-name {
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
         }
 
         /* ===== КНОПКА НАЗАД ===== */
@@ -527,6 +563,9 @@
             .player-list {
                 max-height: 250px;
             }
+            .achievement-text {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 400px) {
@@ -540,6 +579,12 @@
             .tab-btn {
                 font-size: 0.5rem;
                 padding: 0.3rem 0.8rem;
+            }
+            .achievement-text {
+                font-size: 0.75rem;
+            }
+            .achievement-item {
+                padding: 0.5rem 0.8rem;
             }
         }
     </style>
@@ -614,8 +659,30 @@
         <!-- ВКЛАДКА ACHIEVEMENTS -->
         <div class="tab-content" id="tab-achievements">
             <div class="achievements-content">
-                <div class="empty-icon">🏆</div>
-                <div data-ru="Достижения пока не добавлены" data-en="No achievements yet">Достижения пока не добавлены</div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">🏆</span>
+                    <span class="achievement-text" data-ru="Победа в 3x3 Evolve RP Tournament" data-en="Win 3x3 Evolve RP Tournament">Победа в 3x3 Evolve RP Tournament</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">🏆</span>
+                    <span class="achievement-text" data-ru="Победа в 2x2 Evolve RP Tournament" data-en="Win 2x2 Evolve RP Tournament">Победа в 2x2 Evolve RP Tournament</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">🏆</span>
+                    <span class="achievement-text" data-ru="Победа в 2x2 Goat DM Tournament" data-en="Win 2x2 Goat DM Tournament">Победа в 2x2 Goat DM Tournament</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">⚔️</span>
+                    <span class="achievement-text" data-ru="Победа в войне Samp RP Legacy &quot;Aztec Gang&quot;" data-en="Win War Samp RP Legacy &quot;Aztec Gang&quot;">Победа в войне Samp RP Legacy "Aztec Gang"</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">⚔️</span>
+                    <span class="achievement-text" data-ru="Победа в войне YouTubers Samp RP Legacy &quot;Grove Gang&quot;" data-en="Win War of YouTubers Samp RP Legacy &quot;Grove Gang&quot;">Победа в войне YouTubers Samp RP Legacy "Grove Gang"</span>
+                </div>
+                <div class="achievement-item">
+                    <span class="achievement-icon">💀</span>
+                    <span class="achievement-text" data-ru="Рекорд урона на &quot;Blood Deathmatch&quot; — 24,000 урона" data-en="Top 1 Damage Record on &quot;Blood Deathmatch&quot; — 24,000 Damage">Рекорд урона на "Blood Deathmatch" — 24,000 урона</span>
+                </div>
             </div>
         </div>
 
@@ -700,7 +767,7 @@
                 });
 
                 // Обновляем текст в достижениях
-                document.querySelectorAll('.achievements-content div:last-child').forEach(el => {
+                document.querySelectorAll('.achievement-text').forEach(el => {
                     const text = el.dataset[currentLang];
                     if (text) {
                         el.textContent = text;
