@@ -252,7 +252,7 @@
             border-radius: 30px;
             padding: 0.3rem 0.8rem;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
             opacity: 0.4;
             line-height: 1;
@@ -430,7 +430,7 @@
             }
         }
 
-        /* ===== СТАТИСТИКА (заглушка) ===== */
+        /* ===== СТАТИСТИКА ===== */
         .stats-content {
             text-align: center;
             color: rgba(255,255,255,0.3);
@@ -453,6 +453,30 @@
         .stat-value {
             color: rgba(255,255,255,0.6);
             font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ===== ACHIEVEMENTS ===== */
+        .achievements-content {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            padding: 3rem 0;
+            letter-spacing: 0.05em;
+        }
+
+        .achievements-content .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
         }
 
         /* ===== КНОПКА НАЗАД ===== */
@@ -546,8 +570,9 @@
 
         <!-- ВКЛАДКИ -->
         <div class="tabs">
-            <button class="tab-btn active" data-tab="members">Members</button>
-            <button class="tab-btn" data-tab="stats">Stats</button>
+            <button class="tab-btn active" data-tab="members" data-ru="Участники" data-en="Members">Участники</button>
+            <button class="tab-btn" data-tab="stats" data-ru="Статистика" data-en="Stats">Статистика</button>
+            <button class="tab-btn" data-tab="achievements" data-ru="Достижения" data-en="Achievements">Достижения</button>
         </div>
 
         <!-- ВКЛАДКА MEMBERS -->
@@ -576,21 +601,25 @@
         <div class="tab-content" id="tab-stats">
             <div class="stats-content">
                 <div class="stat-item">
-                    <span class="stat-label" data-ru="Всего игроков" data-en="Total players">Всего игроков</span><br>
-                    <span class="stat-value">16</span>
+                    <div class="stat-label" data-ru="Всего участников" data-en="Total members">Всего участников</div>
+                    <div class="stat-value">16</div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label" data-ru="Онлайн" data-en="Online">Онлайн</span><br>
-                    <span class="stat-value">12</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label" data-ru="Дата основания" data-en="Founded">Дата основания</span><br>
-                    <span class="stat-value">2024</span>
+                    <div class="stat-label" data-ru="Дата создания" data-en="Founded">Дата создания</div>
+                    <div class="stat-value">07.04.2026</div>
                 </div>
             </div>
         </div>
 
-        <button class="btn-back" id="backBtn">← назад</button>
+        <!-- ВКЛАДКА ACHIEVEMENTS -->
+        <div class="tab-content" id="tab-achievements">
+            <div class="achievements-content">
+                <div class="empty-icon">🏆</div>
+                <div data-ru="Достижения пока не добавлены" data-en="No achievements yet">Достижения пока не добавлены</div>
+            </div>
+        </div>
+
+        <button class="btn-back" id="backBtn" data-ru="← назад" data-en="← back">← назад</button>
     </div>
 
     <script>
@@ -615,25 +644,22 @@
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabContents = {
             members: document.getElementById('tab-members'),
-            stats: document.getElementById('tab-stats')
+            stats: document.getElementById('tab-stats'),
+            achievements: document.getElementById('tab-achievements')
         };
 
         tabButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Убираем активный класс у всех кнопок
                 tabButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
-                // Скрываем все вкладки
                 Object.values(tabContents).forEach(content => {
                     content.classList.remove('active');
                 });
 
-                // Показываем выбранную вкладку
                 const tabId = btn.dataset.tab;
                 if (tabContents[tabId]) {
                     tabContents[tabId].classList.add('active');
-                    // Перезапускаем анимацию для списка игроков
                     if (tabId === 'members') {
                         const list = tabContents[tabId].querySelector('.player-list');
                         if (list) {
@@ -651,24 +677,19 @@
         const langButtons = document.querySelectorAll('.lang-btn');
         let currentLang = 'ru';
 
-        const translations = {
-            ru: {
-                'Всего игроков': 'Всего игроков',
-                'Онлайн': 'Онлайн',
-                'Дата основания': 'Дата основания'
-            },
-            en: {
-                'Всего игроков': 'Total players',
-                'Онлайн': 'Online',
-                'Дата основания': 'Founded'
-            }
-        };
-
         langButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 langButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentLang = btn.dataset.lang;
+
+                // Обновляем текст вкладок
+                document.querySelectorAll('.tab-btn').forEach(el => {
+                    const text = el.dataset[currentLang];
+                    if (text) {
+                        el.textContent = text;
+                    }
+                });
 
                 // Обновляем текст в статистике
                 document.querySelectorAll('.stat-label').forEach(el => {
@@ -677,6 +698,20 @@
                         el.textContent = text;
                     }
                 });
+
+                // Обновляем текст в достижениях
+                document.querySelectorAll('.achievements-content div:last-child').forEach(el => {
+                    const text = el.dataset[currentLang];
+                    if (text) {
+                        el.textContent = text;
+                    }
+                });
+
+                // Обновляем кнопку назад
+                const backText = backBtn.dataset[currentLang];
+                if (backText) {
+                    backBtn.textContent = backText;
+                }
             });
         });
     </script>
